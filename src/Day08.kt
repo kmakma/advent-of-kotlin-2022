@@ -52,7 +52,14 @@ fun main() {
         }
         return visible.size
     }
-
+    
+    fun lowerIdxScore(grid: List<List<Int>>, a: Int, b: Int): Int {
+        val height = grid[a][b]
+        for (i in a - 1 downTo 0) {
+            if (grid[i][b] >= height) return a - i
+        }
+        return a
+    }
 
     fun scenicScore(grid: List<List<Int>>, x: Int, y: Int): Int {
         val height = grid[x][y]
@@ -113,6 +120,3 @@ fun main() {
     println(part1(input))
     println(part2(input))
 }
-
-
-data class Coord2D(val x: Int, val y: Int)
