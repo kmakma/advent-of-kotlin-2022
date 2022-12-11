@@ -26,6 +26,7 @@ fun main() {
         private fun inspectItem() {
             var worry = operation(items.removeFirst())
             if (useRelief) worry /= 3
+            worry %= divisor
             inspected++
             if (divisibleTest(worry)) {
                 map[isDivisibleTarget]!!.addItem(worry)
@@ -107,6 +108,8 @@ fun main() {
 
     fun part1(input: List<String>): Int {
         val monkeys = parseMonkeys(input)
+        val commonDivisor = monkeys.fold(1) { acc, monkey -> acc * monkey.divisor }
+        monkeys.forEach { it.divisor = commonDivisor }
         repeat(20) {
             monkeys.forEach {
                 it.inspectAll()
@@ -121,31 +124,26 @@ fun main() {
 
     fun part2(input: List<String>): Long {
         val monkeys = parseMonkeys(input)
-        monkeys.forEach { it.useRelief = false }
-        var repet = 0
+        val commonDivisor = monkeys.fold(1) { acc, monkey -> acc * monkey.divisor }
+        monkeys.forEach {
+            it.divisor = commonDivisor
+            it.useRelief = false
+        }
         repeat(10000) {
-            if (repet < 1000) println("items: " + monkeys.first().items)
             monkeys.forEach {
                 it.inspectAll()
             }
-            repet++
-            if (repet == 1 || repet == 20 || repet % 1000 == 0)
-                println(monkeys.map { it.inspected })
         }
-        println(monkeys.map { it.inspected })
         return monkeys.map { it.inspected }
             .sorted()
             .takeLast(2)
             .fold(1L) { acc, i -> acc * i }
     }
 
-    val testInput = readInput("Day11_test")
-    println("test: " + part2(testInput))
-
     val input = readInput("Day11")
 
     println(part1(input))
-//    println(part2(input))
+    println(part2(input))
 }
 
 
