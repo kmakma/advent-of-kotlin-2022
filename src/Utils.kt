@@ -33,6 +33,10 @@ data class Coord2D(val x: Int, val y: Int) {
     operator fun plus(other: Coord2D): Coord2D {
         return Coord2D(this.x + other.x, this.y + other.y)
     }
+
+    fun moved(byX: Int, byY: Int): Coord2D {
+        return Coord2D(x+byX, y+byY)
+    }
 }
 
 /**
